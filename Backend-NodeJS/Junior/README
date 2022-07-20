@@ -1,0 +1,108 @@
+SCBEON Challenge - Node JS (JR Level)
+===================
+
+[![N|Solid](https://jobs.i-hunter.com/claro/views/logo.php)](https://www.claro.com.br/)
+
+O objetivo deste desafio é avaliar a competência técnica dos candidatos a desenvolvedor NodeJS no **SmartContent**. Será solicitado o desenvolvimento de uma API restful para fazer o Controle de Filmes favoritos dos usuários. As regras deste Controle de Filmes favoritos estão detalhadas neste documento.
+
+----------
+
+Especificações Técnicas
+-------------
+
+- **Plataforma suportada:** NodeJS 16+
+- **Linguagem:** Javascript
+- **Idioma de escrita do código:** Inglês
+
+----------
+
+Requisitos
+-------------
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [Contextualização](#contextualização)
+- [Requisitos obrigatórios (Funcionalidades)](#requisitos-obrigatórios-funcionalidades)
+- [Requisitos desejáveis](#requisitos-desejáveis)
+- [Requisitos "plus"](#requisitos-plus)
+
+<!-- /code_chunk_output -->
+
+#### Contextualização
+
+A empresa possui uma solução de vídeo que os usuários utilizam através de um aplicativo nas plataformas Android e iOS. Os usuários têm à disposição um catálogo de filmes e séries que eles podem assistir em seus tablets/smartphones. Os usuários podem favoritar filmes que estão disponíveis no arquivo catalog.json.
+
+O desafio consiste em criar uma API restful fictícia que permita o cadastro, alteração e remoção dos conteúdos favoritos do usuário. Não é necessário implementar o cadastro dos usuários ou conteúdos. Os mesmos serão representados por ids.
+
+Existem algumas restrições para o controle de favoritos:
+- Um usuário poderá ter, no máximo, três conteúdos favoritados.
+- O usuário poderá fazer a troca de um conteúdo favorito cadastrado no período de 5 dias. Para isso, o usuário deverá remover um conteúdo favorito e cadastrar outro. Após efetuar a troca de um conteúdo favorito, uma nova troca só será possível 5 dias depois.
+
+As APIs de controle de conteúdos favoritos deverão respeitar estas restrições e retornar os erros correspondentes, informando para o client o motivo do erro. Veja abaixo alguns exemplos de uso:
+
+1. O usuário **321** deseja cadastrar o seu primeiro conteúdo favorito. A API cadastra o conteúdo e retorna sucesso.
+
+2. O usuário **321** deseja cadastrar o seu primeiro conteúdo favorito que não está registrado no catalog.json. A API não cadastra o conteúdo e retorna um erro informando que o id daquele conteúdo não faz parte do nosso catálogo.
+
+3. O usuário **654** já possui três conteúdos favoritos cadastrados, tem direito a uma troca, e deseja cadastrar o quarto conteúdo favorito. A API não cadastra o conteúdo favorito e retorna erro, informando que aquele usuário excedeu o limite de conteúdos favoritos cadastrados, mas ainda pode fazer uma troca.
+
+3. O usuário **654** já possui três conteúdos favoritos cadastrados, já efetuou uma troca nos últimos 30 dias, e deseja cadastrar o quarto device. A API não cadastra o conteúdo favoritado e retorna erro, informando que aquele usuário excedeu o limite de conteúdos favoritados cadastrados e não pode mais fazer troca. Neste caso, a API também deverá retornar a data em que o usuário poderá fazer uma nova troca.
+
+4. O usuário **987** possui dois conteúdos favoritados cadastrados, já efetuou uma troca nos últimos 30 dias, e deseja remover um conteúdo favoritado. A API remove o conteúdo favoritado e retorna sucesso.
+
+5. O usuário **987** agora possui apenas um conteúdo favoritado cadastrado, já efetuou uma troca nos últimos 30 dias, e deseja remover este conteúdo favoritado. A API não remove o conteúdo favoritado cadastrado e retorna erro, informando que o último conteúdo favoritado não pode ser removido, pois o usuário não será capaz de cadastrar outro, e assim não poderá usar o aplicativo. Neste caso, a API também deverá retornar a data em que o usuário poderá fazer uma nova troca.
+
+#### Requisitos obrigatórios (Funcionalidades)
+
+1. Adicionar um conteúdo favorito, informando:
+	- ID do usuário
+	- ID do conteúdo do catálogo
+	- Data e hora (ISO 8601:2000) da atualização / criação
+3. Remover um conteúdo favoritado através do ID do usuário / ID do conteúdo 
+4. Listar todos os conteúdos favoritados de um determinado usuário
+5. Listar o ranqueamento de conteúdos mais favoritados pelos usuários.
+
+
+#### Requisitos desejáveis
+
+ - Containerização da API
+ - Testes unitários
+ - Documentação SWAGGER da API
+
+
+#### Requisitos "plus"
+
+Os requisitos abaixo não precisam ser implementados, mas são considerados um "plus" na sua avaliação.
+
+ - Use arquitetura em Serverless
+ - Use Amazon Web Services
+ - Ao concluir o challenge, crie uma nova branch e refatore partes do seu código. Avalie se as libs externas que você utilizou são realmente necessárias neste contexto. Sugestão: Remova algumas libs e utilize a própria linguagem JavaScript, módulos do próprio Node, ou features ES6 / ES7.
+ - Use criptografia no armazenamento do ID dos usuários
+
+
+----------
+
+Critérios de avaliação
+-------------
+
+ - Qualidade de escrita do código
+ - Organização do projeto
+ - Qualidade da API Restful
+ - Lógica da solução implementada
+ - Qualidade da camada de persistência
+ - Utilização do Git (quantidade e descrição dos commits, Git Flow)
+
+----------
+
+Instruções de entrega
+-------------
+
+ 1. Crie um fork do repositório no seu GitHub
+ 2. Faça o push do código desenvolvido no seu Github
+ 3. Inclua um arquivo chamado COMMENTS.md explicando
+	 - Explicação rápida da decisão da arquitetura utilizada e o porquê
+	 - Lista de bibliotecas de terceiros utilizadas
+	 - O que você melhoraria se tivesse mais tempo
+	 - Quais requisitos obrigatórios não foram entregues e o porquê
+ 4. Informe ao recrutador quando concluir o desafio junto com o link do repositório
