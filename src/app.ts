@@ -1,10 +1,13 @@
 import express, { Request, Response } from 'express';
+import catalogRouter from './routes/v1';
 
 const app = express();
 
 app.use(express.json());
 
-app.get('/api/', (_req: Request, res: Response) => {
+app.use('/api', catalogRouter);
+
+app.get('/api', (_req: Request, res: Response) => {
   res.json({ detail: 'Catalog Api Ok' });
 });
 
