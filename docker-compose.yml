@@ -1,0 +1,57 @@
+version: "3.5"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - .env.dev
+    networks:
+      - backend
+
+  backend:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+    env_file:
+      - .env.dev
+    networks:
+      - backend
+
+  backend_generate:
+    build: .
+    command: bash -c 'npx prisma generate'
+    volumes:
+      - .:/app
+    env_file:
+      - .env.dev
+    depends_on:
+      - postgres
+    networks:
+      - backend
+
+  backend_migrate:
+    build: .
+    command: bash -c 'npx prisma migrate deploy'
+    volumes:
+      - .:/app
+    env_file:
+      - .env.dev
+    depends_on:
+      - postgres
+    networks:
+      - backend
+
+networks:
+  backend:
+
+
+volumes:
+  pg-data:
