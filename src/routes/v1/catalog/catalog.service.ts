@@ -30,7 +30,6 @@ export const getFaavorites = async (userId: number): Promise<Catalog> => {
 export const addFavorite = async (
   userId: number,
   contentId: string,
-  // datetime: string,
 ): Promise<Favorite> => {
   const newFavorite = await prismaService.favorite.create({
     data: {
@@ -38,7 +37,13 @@ export const addFavorite = async (
       contentId,
     },
   });
-
+  await prismaService.userLastAction.upsert({
+    where: { userId },
+    create: {
+      userId,
+    },
+    update: { userId },
+  });
   return newFavorite;
 };
 function getFavoriteDetails(contentIds: string[]): Catalog {
