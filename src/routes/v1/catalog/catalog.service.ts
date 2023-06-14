@@ -47,6 +47,18 @@ export const addFavorite = async (
   });
   return newFavorite;
 };
+
+export const getLastActionDate = async (
+  userId: number,
+): Promise<string | undefined> => {
+  const lastAction = await prismaService.userLastAction.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  return lastAction?.updatedAt.toISOString();
+};
 function getFavoriteDetails(contentIds: string[]): Catalog {
   return {
     movies: getMovies().filter((mov) => contentIds.includes(mov.id)),
