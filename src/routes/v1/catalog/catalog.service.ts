@@ -38,26 +38,20 @@ export const addFavorite = async (
       contentId,
     },
   });
-  await prismaService.userLastAction.upsert({
-    where: { userId },
-    create: {
-      userId,
-    },
-    update: { userId },
-  });
+
   return newFavorite;
 };
 
 export const getLastActionDate = async (
   userId: number,
-): Promise<string | undefined> => {
+): Promise<Date | undefined> => {
   const lastAction = await prismaService.userLastAction.findUnique({
     where: {
       userId,
     },
   });
 
-  return lastAction?.updatedAt.toISOString();
+  return lastAction?.updatedAt;
 };
 function getFavoriteDetails(contentIds: string[]): Catalog {
   return {

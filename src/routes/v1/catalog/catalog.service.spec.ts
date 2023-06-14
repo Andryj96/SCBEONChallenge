@@ -35,9 +35,10 @@ describe('Catalog service', () => {
       const favorite = await catalogService.addFavorite(1234, 'SH00000000003');
       expect(favorite.id).toBeDefined();
     });
-    it('Should return lastAction', async () => {
+
+    it('Should return lastAction date', async () => {
       const lastActionDate = await catalogService.getLastActionDate(1234);
-      expect(typeof lastActionDate).toBe('string');
+      expect(typeof lastActionDate).toBe('object');
     });
   });
 });
