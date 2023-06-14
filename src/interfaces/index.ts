@@ -22,3 +22,8 @@ export interface Serie {
 export interface Movie extends Serie {
   subType: string;
 }
+
+export interface Catalog {
+  movies: Movie[];
+  series: Serie[];
+}
