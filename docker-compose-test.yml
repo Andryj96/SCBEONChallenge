@@ -19,6 +19,8 @@ services:
       - .env.test
     depends_on:
       - postgres_test
+      - backend_generate_test
+      - backend_migrate_test
     networks:
       - backend_test
 

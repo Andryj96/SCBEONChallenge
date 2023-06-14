@@ -20,6 +20,8 @@ services:
       - .:/app
     depends_on:
       - postgres
+      - backend_generate
+      - backend_migrate
     env_file:
       - .env.dev
     networks:
