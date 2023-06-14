@@ -1,0 +1,54 @@
+version: "3.5"
+
+services:
+  postgres_test:
+    image: postgres:15-alpine
+    volumes:
+      - pg-data-test:/var/lib/postgresql/data
+    env_file:
+      - .env.test
+    networks:
+      - backend_test
+
+  backend_test:
+    build: .
+    command: npx jest
+    volumes:
+      - .:/app
+    env_file:
+      - .env.test
+    depends_on:
+      - postgres_test
+    networks:
+      - backend_test
+
+  backend_generate_test:
+    build: .
+    command: bash -c 'npx prisma generate'
+    volumes:
+      - .:/app
+    env_file:
+      - .env.test
+    depends_on:
+      - postgres_test
+    networks:
+      - backend_test
+
+  backend_migrate_test:
+    build: .
+    command: bash -c 'npx prisma migrate deploy'
+    volumes:
+      - .:/app
+    env_file:
+      - .env.test
+    depends_on:
+      - postgres_test
+    networks:
+      - backend_test
+
+networks:
+  backend_test:
+
+
+volumes:
+  pg-data-test:
