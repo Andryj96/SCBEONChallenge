@@ -1,5 +1,6 @@
 import express from 'express';
 import * as catalogService from './catalog.service';
+import { validateAddFavorite } from './catalog.middleware';
 
 const router = express.Router();
 
@@ -13,12 +14,22 @@ router.get('/series', (_req, res) => {
   res.json(series);
 });
 
-router.get('/favorites/user/:userId', async (_req, res) => {
-  res.json('get favorites');
+router.get('/favorites/user/:userId', async (req, res) => {
+  const { userId } = req.params;
+  if (Number.isNaN(+userId))
+    return res
+      .status(400)
+      .json({ detail: 'You must specify the user id as number' });
+
+  const favorites = await catalogService.getFaavorites(+userId);
+  res.json(favorites);
 });
 
-router.post('/favorites/user/', async (_req, res) => {
-  res.json('Add a favorite');
+router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
+  const { userId, contentId, dateTime } = req.body;
+
+  const newFavorite = await catalogService.addFavorite(userId, contentId);
+  res.json({ userId, contentId, dateTime, id: newFavorite.id });
 });
 
 router.delete('/favorites/user/:userId/:contentId', async (_req, res) => {
