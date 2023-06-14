@@ -123,16 +123,11 @@ describe('Catalog Api test', () => {
       expect(res.body.detail).toContain('conteId does not exist');
     });
 
-    it('Should return last action date', async () => {
-      const res = await request(app)
-        .post('/api/v1/catalog/favorites/user/')
-        .send({
-          userId: 1234,
-          contentId: 'SH00000000005',
-          dateTime: '2022-06-14T10:00:00.000Z',
-        });
-      expect(res.status).toBe(400);
-      expect(res.body.detail).toContain('conteId does not exist');
+    it('Should return all favorites by user populated', async () => {
+      const res = await request(app).get('/api/v1/catalog/favorites/user/1234');
+      expect(res.status).toBe(200);
+      expect(res.body.movies.length + res.body.series.length).toBe(3);
+      expect(res.body.movies[0].title).toBe('Os Mistérios do XYZ');
     });
   });
 });
