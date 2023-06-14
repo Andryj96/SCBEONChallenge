@@ -4,6 +4,11 @@ import { validateAddFavorite } from './catalog.middleware';
 
 const router = express.Router();
 
+router.get('/', (_req, res) => {
+  const catalog = catalogService.getCatalog();
+  res.json(catalog);
+});
+
 router.get('/movies', (_req, res) => {
   const movies = catalogService.getMovies();
   res.json(movies);

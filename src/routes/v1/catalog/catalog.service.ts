@@ -3,6 +3,7 @@ import { data } from '../../../constants/catalog.json';
 import { Catalog, Movie, Serie } from '../../../interfaces';
 import prismaService from '../../../prisma/client';
 
+export const getCatalog = (): Catalog => data.catalog as Catalog;
 export const getMovies = (): Movie[] => data.catalog.movies as Movie[];
 export const getSeries = (): Serie[] => data.catalog.series as Serie[];
 
