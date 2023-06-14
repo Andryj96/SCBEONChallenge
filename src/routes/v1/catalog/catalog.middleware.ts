@@ -1,5 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import { findContentById, getFaavoritesByUser } from './catalog.service';
+import {
+  findContentById,
+  getFaavoritesByUser,
+  getLastActionDate,
+} from './catalog.service';
+import { checkFiveDayLimit, iso8601Regex } from '../../../utils/utils';
 
 export const validateAddFavorite = async (
   req: Request,
@@ -23,7 +28,6 @@ export const validateAddFavorite = async (
   // I will save the current date and time when adding a
   // favorite to have the most precise control of the favorite changes
 
-  const iso8601Regex = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)$/;
   if (!iso8601Regex.test(dateTime))
     return res.status(400).json({
       detail: 'You must provide dateTime in format YYYY-MM-DDTHH:mm:ss.sssZ',
@@ -52,5 +56,11 @@ export const validateAddFavorite = async (
     });
 
   // check for not allowed change in last 5 days
+  const lastAction = await getLastActionDate(userId);
+  if (lastAction && !checkFiveDayLimit(lastAction))
+    return res.status(400).json({
+      detail: 'You can change the favorite 5 days after your last change.',
+    });
+
   next();
 };
