@@ -18,7 +18,7 @@ export const findContentById = (
   return content;
 };
 
-export const getFaavorites = async (userId: number): Promise<Catalog> => {
+export const getFaavoritesByUser = async (userId: number): Promise<Catalog> => {
   const favorites = await prismaService.favorite.findMany({
     select: { contentId: true },
     where: { userId },

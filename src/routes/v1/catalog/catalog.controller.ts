@@ -21,7 +21,7 @@ router.get('/favorites/user/:userId', async (req, res) => {
       .status(400)
       .json({ detail: 'You must specify the user id as number' });
 
-  const favorites = await catalogService.getFaavorites(+userId);
+  const favorites = await catalogService.getFaavoritesByUser(+userId);
   res.json(favorites);
 });
 
