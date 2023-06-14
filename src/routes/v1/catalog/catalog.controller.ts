@@ -1,6 +1,6 @@
 import express from 'express';
 import * as catalogService from './catalog.service';
-import { validateAddFavorite } from './catalog.middleware';
+import { validateAddFavorite, validateUserIdParam } from './catalog.middleware';
 
 const router = express.Router();
 
@@ -19,13 +19,8 @@ router.get('/series', (_req, res) => {
   res.json(series);
 });
 
-router.get('/favorites/user/:userId', async (req, res) => {
+router.get('/favorites/user/:userId', validateUserIdParam, async (req, res) => {
   const { userId } = req.params;
-  if (Number.isNaN(+userId))
-    return res
-      .status(400)
-      .json({ detail: 'You must specify the user id as number' });
-
   const favorites = await catalogService.getFaavoritesByUser(+userId);
   res.json(favorites);
 });
@@ -37,9 +32,15 @@ router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
   res.json({ userId, contentId, dateTime, id: newFavorite.id });
 });
 
-router.delete('/favorites/user/:userId/:contentId', async (_req, res) => {
-  res.json('remove a favorite');
-});
+router.delete(
+  '/favorites/user/:userId/:contentId',
+  validateUserIdParam,
+  async (req, res) => {
+    const { userId, contentId } = req.params;
+    await catalogService.removeFavorite(+userId, contentId);
+    res.json({ detail: 'Favorite content removed.' });
+  },
+);
 
 router.get('/favorites/top', async (_req, res) => {
   res.json('most favorite content');

@@ -6,6 +6,20 @@ import {
 } from './catalog.service';
 import { checkFiveDayLimit, iso8601Regex } from '../../../utils/utils';
 
+export const validateUserIdParam = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { userId } = req.params;
+  if (Number.isNaN(+userId))
+    return res
+      .status(400)
+      .json({ detail: 'You must specify the userId as number' });
+
+  next();
+};
+
 export const validateAddFavorite = async (
   req: Request,
   res: Response,

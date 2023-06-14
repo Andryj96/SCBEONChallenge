@@ -42,6 +42,30 @@ export const addFavorite = async (
   return newFavorite;
 };
 
+export const removeFavorite = async (
+  userId: number,
+  contentId: string,
+): Promise<void> => {
+  try {
+    await prismaService.favorite.deleteMany({
+      where: {
+        userId,
+        contentId,
+      },
+    });
+
+    await prismaService.userLastAction.upsert({
+      where: { userId },
+      create: {
+        userId,
+      },
+      update: { userId },
+    });
+  } catch (error) {
+    throw new Error('Error removing a favorite content');
+  }
+};
+
 export const getLastActionDate = async (
   userId: number,
 ): Promise<Date | undefined> => {
