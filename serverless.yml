@@ -1,0 +1,19 @@
+service: nodejs-catalog-test
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: sa-east-1
+  stage: ${opt:stage, 'dev'}
+
+  environment:
+    STAGE: ${opt:stage, self:provider.stage}
+
+functions:
+  app:
+    handler: dist/handler.handler
+    events:
+      - http: ANY /
+      - http: ANY /{proxy+}
+
+plugins:
+  - serverless-offline
