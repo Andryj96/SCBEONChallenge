@@ -36,7 +36,7 @@ describe('Catalog Api test', () => {
       expect(Array.isArray(res.body)).toBe(true);
     });
     it('Should return series', async () => {
-      const res = await request(app).get('/api/v1/catalog/movies');
+      const res = await request(app).get('/api/v1/catalog/series');
       expect(res.status).toBe(200);
       expect(Array.isArray(res.body)).toBe(true);
     });
