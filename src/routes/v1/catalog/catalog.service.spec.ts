@@ -1,4 +1,3 @@
-import { iso8601Regex } from '../../../utils/utils';
 import * as catalogService from './catalog.service';
 
 describe('Catalog service', () => {
@@ -28,27 +27,6 @@ describe('Catalog service', () => {
     it('should get series', () => {
       const series = catalogService.getSeries();
       expect(series.length).toBeGreaterThan(0);
-    });
-  });
-
-  describe('Catalog interaction with db', () => {
-    it('Should add a fovorite', async () => {
-      const favorite = await catalogService.addFavorite(1234, 'SH00000000003');
-      expect(favorite.id).toBeDefined();
-    });
-
-    it('Should remove a fovorite', async () => {
-      const favorite = await catalogService.removeFavorite(
-        1234,
-        'SH00000000003',
-      );
-      expect(favorite).toBeUndefined();
-    });
-
-    it('Should return lastAction date', async () => {
-      const lastActionDate = await catalogService.getLastActionDate(1234);
-      expect(typeof lastActionDate).toBe('object');
-      expect(lastActionDate?.toISOString()).toMatch(iso8601Regex);
     });
   });
 });

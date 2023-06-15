@@ -1,4 +1,4 @@
-import { Favorite } from '@prisma/client';
+import { Favorite, LAST_ACTION } from '@prisma/client';
 import { data } from '../../../constants/catalog.json';
 import { Catalog, Movie, Serie } from '../../../interfaces';
 import prismaService from '../../../prisma/client';
@@ -12,6 +12,7 @@ export const findContentById = (
 ): Movie | Serie | undefined => {
   // we could check the contentId start 2 chars to check if is MV (Movie) or
   // SH (Serie) but I will check all data
+
   let content: Movie | Serie | undefined;
   content = getMovies().find((mov) => mov.id === contentId);
   if (!content) content = getSeries().find((serie) => serie.id === contentId);
@@ -19,6 +20,11 @@ export const findContentById = (
   return content;
 };
 
+/**
+ * Get favorite content by user
+ * @param userId
+ * @returns a catalog object with the favorited content of the user
+ */
 export const getFaavoritesByUser = async (userId: number): Promise<Catalog> => {
   const favorites = await prismaService.favorite.findMany({
     select: { contentId: true },
@@ -28,20 +34,36 @@ export const getFaavoritesByUser = async (userId: number): Promise<Catalog> => {
   return getFavoriteDetails(favoritesId);
 };
 
+/**
+ * Add favorite content
+ * @param userId
+ * @param contentId
+ * @returns the result object referencing content and user
+ */
 export const addFavorite = async (
   userId: number,
   contentId: string,
 ): Promise<Favorite> => {
-  const newFavorite = await prismaService.favorite.create({
-    data: {
-      userId,
-      contentId,
-    },
-  });
+  try {
+    const newFavorite = await prismaService.favorite.create({
+      data: {
+        userId,
+        contentId,
+      },
+    });
+    await updateLastAction(userId, LAST_ACTION.ADD);
 
-  return newFavorite;
+    return newFavorite;
+  } catch (error) {
+    throw new Error('Error adding a new favorite content');
+  }
 };
 
+/**
+ * Remove favorite content
+ * @param userId
+ * @param contentId
+ */
 export const removeFavorite = async (
   userId: number,
   contentId: string,
@@ -53,33 +75,91 @@ export const removeFavorite = async (
         contentId,
       },
     });
-
-    await prismaService.userLastAction.upsert({
-      where: { userId },
-      create: {
-        userId,
-      },
-      update: { userId },
-    });
+    await updateLastAction(userId, LAST_ACTION.REMOVE);
   } catch (error) {
     throw new Error('Error removing a favorite content');
   }
 };
 
-export const getLastActionDate = async (
+/**
+ *
+ * @param userId
+ * @returns last change date time
+ */
+export const getLastChangeDate = async (
   userId: number,
-): Promise<Date | undefined> => {
+): Promise<Date | undefined | null> => {
   const lastAction = await prismaService.userLastAction.findUnique({
     where: {
       userId,
     },
   });
 
-  return lastAction?.updatedAt;
+  return lastAction?.lastChangeAt;
 };
+
+/**
+ *
+ * @param userId
+ * @param contentId
+ * @returns true if the content is favorited by this user id
+ */
+export const isFavorite = async (
+  userId: number,
+  contentId: string,
+): Promise<boolean> => {
+  const isFav = await prismaService.favorite.findFirst({
+    where: { userId, contentId },
+  });
+  return !!isFav;
+};
+
+/**
+ *
+ * @param contentIds
+ * @returns an object with the content data of the gives ids
+ */
 function getFavoriteDetails(contentIds: string[]): Catalog {
   return {
     movies: getMovies().filter((mov) => contentIds.includes(mov.id)),
     series: getSeries().filter((serie) => contentIds.includes(serie.id)),
   };
+}
+
+/**
+ * Update last action model
+ * @param userId
+ * @param operation
+ * @returns true for a favorite change made or false if not
+ */
+async function updateLastAction(
+  userId: number,
+  operation: LAST_ACTION,
+): Promise<boolean> {
+  const userLastAction = await prismaService.userLastAction.findUnique({
+    where: { userId },
+  });
+
+  const actionData: {
+    userId: number;
+    lastAction: LAST_ACTION;
+    lastChangeAt?: Date;
+  } = {
+    userId,
+    lastAction: operation,
+  };
+
+  if (
+    userLastAction?.lastAction === LAST_ACTION.REMOVE &&
+    operation === LAST_ACTION.ADD
+  )
+    actionData.lastChangeAt = new Date();
+
+  await prismaService.userLastAction.upsert({
+    where: { userId },
+    create: actionData,
+    update: actionData,
+  });
+
+  return !!actionData.lastChangeAt;
 }

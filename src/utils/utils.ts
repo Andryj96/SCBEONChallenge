@@ -5,7 +5,7 @@ import moment from 'moment';
  * @param dateTime
  * @returns true if current date is five days after last date
  */
-export const checkFiveDayLimit = (dateTime: Date): boolean => {
+export const isFiveDaysAfter = (dateTime: Date): boolean => {
   const currentDateTime = moment();
 
   return currentDateTime.diff(dateTime, 'days') > 5;
