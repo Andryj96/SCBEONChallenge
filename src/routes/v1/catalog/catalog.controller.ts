@@ -66,7 +66,7 @@ router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
           description: 'Adding new favorite.',
           schema: { $ref: '#/definitions/AddFavorite' }
   } */
-  /* #swagger.responses[200] = {
+  /* #swagger.responses[201] = {
         description: 'Return a catalog of favorites',
         schema: { $ref: "#/definitions/ReturnFavorite" }
     } 
@@ -82,7 +82,7 @@ router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
   const { userId, contentId, dateTime } = req.body;
 
   const newFavorite = await catalogService.addFavorite(userId, contentId);
-  res.json({ userId, contentId, dateTime, id: newFavorite.id });
+  res.status(201).json({ userId, contentId, dateTime, id: newFavorite.id });
 });
 
 router.delete(
@@ -91,9 +91,8 @@ router.delete(
   async (req, res) => {
     // #swagger.description = 'Remove favorite content from user.'
 
-    /* #swagger.responses[200] = {
-        description: 'Return an onject with message',
-        schema: { detail: 'Success message' }
+    /* #swagger.responses[204] = {
+        description: 'No content',
     } 
   */
     /* #swagger.responses[400] = {
@@ -106,7 +105,7 @@ router.delete(
   */
     const { userId, contentId } = req.params;
     await catalogService.removeFavorite(+userId, contentId);
-    res.json({ detail: 'Favorite content removed.' });
+    res.status(204).end();
   },
 );
 

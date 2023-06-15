@@ -57,7 +57,7 @@ describe('Catalog Api test', () => {
           contentId: 'MV00000000002',
           dateTime: '2022-06-14T10:00:00.000Z',
         });
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(201);
       expect(res.body.id).toBeDefined();
     });
 
@@ -69,7 +69,7 @@ describe('Catalog Api test', () => {
           contentId: 'SH00000000001',
           dateTime: '2022-06-14T10:00:00.000Z',
         });
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(201);
       expect(res.body.id).toBeDefined();
     });
 
@@ -134,8 +134,7 @@ describe('Catalog Api test', () => {
       const res = await request(app).delete(
         '/api/v1/catalog/favorites/user/1234/SH00000000001',
       );
-      expect(res.status).toBe(200);
-      expect(res.body.detail).toContain('content removed');
+      expect(res.status).toBe(204);
     });
 
     it('Should not remove a favorite that does not exist', async () => {
@@ -154,7 +153,7 @@ describe('Catalog Api test', () => {
           contentId: 'MV00000000003',
           dateTime: '2022-06-14T10:00:00.000Z',
         });
-      expect(res.status).toBe(200);
+      expect(res.status).toBe(201);
     });
 
     it('Should return bad request when try to add a \
