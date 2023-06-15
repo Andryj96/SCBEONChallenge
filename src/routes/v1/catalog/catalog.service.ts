@@ -114,10 +114,37 @@ export const isFavorite = async (
   return !!isFav;
 };
 
+export const getTopFavorites = async (): Promise<
+  {
+    count: number;
+    content: Movie | Serie | undefined;
+  }[]
+> => {
+  try {
+    const mostFavorites = await prismaService.favorite.groupBy({
+      by: ['contentId'],
+      _count: { contentId: true },
+      orderBy: {
+        _count: {
+          contentId: 'desc',
+        },
+      },
+    });
+    return mostFavorites.map((fav) => {
+      return {
+        count: fav._count.contentId,
+        content: findContentById(fav.contentId),
+      };
+    });
+  } catch (error) {
+    throw new Error('Error fetching most favorite content.');
+  }
+};
+
 /**
  *
  * @param contentIds
- * @returns an object with the content data of the gives ids
+ * @returns an object with the content data of the given ids
  */
 function getFavoriteDetails(contentIds: string[]): Catalog {
   return {

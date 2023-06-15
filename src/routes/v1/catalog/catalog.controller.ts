@@ -47,7 +47,7 @@ router.delete(
 );
 
 router.get('/favorites/top', async (_req, res) => {
-  res.json('most favorite content');
+  res.json(await catalogService.getTopFavorites());
 });
 
 export default router;
