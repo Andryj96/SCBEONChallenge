@@ -27,3 +27,8 @@ or
 You can also deploy the application with Serverless or Serverless Offline. It requires running an instance of Postgres and executing the command next to run it locally.
 
 `npm run dev:sls`
+
+## Refactor branch
+
+In the 'refactor' branch, which was dedicated to code improvements and removing some libraries,
+the moment library was removed for handling dates, and it was replaced with native JavaScript methods.
