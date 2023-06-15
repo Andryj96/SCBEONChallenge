@@ -1,129 +1,105 @@
 {
-    "data": {
-        "catalog": {
-            "movies": [
-                {
-                    "id": "MV00000000001",
-                    "title": "As Aventuras da Turma X",
-                    "description": {
-                        "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
-                    },
-                    "runTime": "PT01H12M",
-                    "subType": "Feature Film",
-                    "releaseYear": 2001,
-                    "genres": [
-                        "Infantil",
-                        "Aventura",
-                        "Animação"
-                    ]
-                },
-                {
-                    "id": "MV00000000002",
-                    "title": "Os Mistérios do XYZ",
-                    "description": {
-                        "default": "dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "dolor sit amet consectetur adipisicing elit."
-                    },
-                    "runTime": "PT02H20M",
-                    "subType": "Feature Film",
-                    "releaseYear": 2005,
-                    "genres": [
-                        "Suspense",
-                        "Aventura"
-                    ]
-                },
-                {
-                    "id": "MV00000000003",
-                    "title": "A estranha vida de João Laranjeira",
-                    "description": {
-                        "default": "consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "consectetur adipisicing elit."
-                    },
-                    "runTime": "PT01H52M",
-                    "subType": "Feature Film",
-                    "releaseYear": 2016,
-                    "genres": [
-                        "Drama",
-                        "Aventura"
-                    ]
-                },
-                {
-                    "id": "MV00000000004",
-                    "title": "Terra do Zero",
-                    "description": {
-                        "default": "adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "sit amet consectetur adipisicing elit."
-                    },
-                    "runTime": "PT01H34M",
-                    "subType": "Feature Film",
-                    "releaseYear": 2021,
-                    "genres": [
-                        "Infantil",
-                        "Comédia"
-                    ]
-                },
-                {
-                    "id": "MV00000000005",
-                    "title": "O segredo da caixa perdida",
-                    "description": {
-                        "default": "Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "sit amet consectetur adipisicing elit Lorem ipsum dolor ."
-                    },
-                    "runTime": "PT01H27M",
-                    "subType": "Feature Film",
-                    "releaseYear": 2019,
-                    "genres": [
-                        "Drama",
-                        "Suspense"
-                    ]
-                }
-            ],
-            "series": [
-                {
-                    "id": "SH00000000001",
-                    "title": "Jogo das cadeiras",
-                    "description": {
-                        "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
-                    },
-                    "runTime": "PT00H30M",
-                    "genres": [
-                        "Ação",
-                        "Aventura"
-                    ],
-                    "releaseYear": 2015
-                },
-
-                {
-                    "id": "SH00000000002",
-                    "title": "A volta dos que não foram",
-                    "description": {
-                        "default": "ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "ipsum dolor sit amet consectetur adipisicing elit."
-                    },
-                    "runTime": "PT00H50M",
-                    "genres": [
-                        "Suspense"
-                    ],
-                    "releaseYear": 2019
-                },
-
-                {
-                    "id": "SH00000000003",
-                    "title": "Esqueceram das crianças 1",
-                    "description": {
-                        "default": "Amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
-                        "short": "Amet consectetur adipisicing elit."
-                    },
-                    "runTime": "PT00H55M",
-                    "genres": [
-                        "Aventura",
-                        "Comédia"
-                    ],
-                    "releaseYear": 2018
-                }
-            ]
+  "data": {
+    "catalog": {
+      "movies": [
+        {
+          "id": "MV00000000001",
+          "title": "As Aventuras da Turma X",
+          "description": {
+            "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          },
+          "runTime": "PT01H12M",
+          "subType": "Feature Film",
+          "releaseYear": 2001,
+          "genres": ["Infantil", "Aventura", "Animação"]
+        },
+        {
+          "id": "MV00000000002",
+          "title": "Os Mistérios do XYZ",
+          "description": {
+            "default": "dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "dolor sit amet consectetur adipisicing elit."
+          },
+          "runTime": "PT02H20M",
+          "subType": "Feature Film",
+          "releaseYear": 2005,
+          "genres": ["Suspense", "Aventura"]
+        },
+        {
+          "id": "MV00000000003",
+          "title": "A estranha vida de João Laranjeira",
+          "description": {
+            "default": "consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "consectetur adipisicing elit."
+          },
+          "runTime": "PT01H52M",
+          "subType": "Feature Film",
+          "releaseYear": 2016,
+          "genres": ["Drama", "Aventura"]
+        },
+        {
+          "id": "MV00000000004",
+          "title": "Terra do Zero",
+          "description": {
+            "default": "adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "sit amet consectetur adipisicing elit."
+          },
+          "runTime": "PT01H34M",
+          "subType": "Feature Film",
+          "releaseYear": 2021,
+          "genres": ["Infantil", "Comédia"]
+        },
+        {
+          "id": "MV00000000005",
+          "title": "O segredo da caixa perdida",
+          "description": {
+            "default": "Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "sit amet consectetur adipisicing elit Lorem ipsum dolor ."
+          },
+          "runTime": "PT01H27M",
+          "subType": "Feature Film",
+          "releaseYear": 2019,
+          "genres": ["Drama", "Suspense"]
         }
+      ],
+      "series": [
+        {
+          "id": "SH00000000001",
+          "title": "Jogo das cadeiras",
+          "description": {
+            "default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+          },
+          "runTime": "PT00H30M",
+          "genres": ["Ação", "Aventura"],
+          "releaseYear": 2015
+        },
+
+        {
+          "id": "SH00000000002",
+          "title": "A volta dos que não foram",
+          "description": {
+            "default": "ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "ipsum dolor sit amet consectetur adipisicing elit."
+          },
+          "runTime": "PT00H50M",
+          "genres": ["Suspense"],
+          "releaseYear": 2019
+        },
+
+        {
+          "id": "SH00000000003",
+          "title": "Esqueceram das crianças 1",
+          "description": {
+            "default": "Amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum.",
+            "short": "Amet consectetur adipisicing elit."
+          },
+          "runTime": "PT00H55M",
+          "genres": ["Aventura", "Comédia"],
+          "releaseYear": 2018
+        }
+      ]
     }
+  }
 }

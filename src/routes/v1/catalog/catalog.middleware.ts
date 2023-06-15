@@ -35,6 +35,7 @@ export const validateAddFavorite = async (
     return res.status(400).json({
       detail:
         'You must provide userId (number), contentId (string) and dateTime (YYYY-MM-DDTHH:mm:ss.sssZ)',
+      canChangeAfter: null,
     });
   }
 
@@ -47,12 +48,14 @@ export const validateAddFavorite = async (
   if (!iso8601Regex.test(dateTime))
     return res.status(400).json({
       detail: 'You must provide dateTime in format YYYY-MM-DDTHH:mm:ss.sssZ',
+      canChangeAfter: null,
     });
 
   // Validate if contentId exists
   if (!findContentById(contentId))
     return res.status(400).json({
       detail: 'Content with this conteId does not exist in the catalog.',
+      canChangeAfter: null,
     });
 
   // check for favorite limit
@@ -64,6 +67,7 @@ export const validateAddFavorite = async (
       return res.status(400).json({
         detail:
           'You exceeded the limit of favorite content (3 max), you can make a change of content.',
+        canChangeAfter: null,
       });
     else {
       const canChangeAfter = moment(lastChangeAt).add(5, 'days');
@@ -82,6 +86,7 @@ export const validateAddFavorite = async (
   )
     return res.status(400).json({
       detail: 'You already has this content as favorite.',
+      canChangeAfter: null,
     });
 
   // check for not allowed change in last 5 days
@@ -108,6 +113,7 @@ export const validateRemoveFavorite = async (
   if (Number.isNaN(+userId) || !contentId) {
     return res.status(400).json({
       detail: 'You must provide userId (number), contentId (string) in params',
+      canChangeAfter: null,
     });
   }
 
@@ -115,6 +121,7 @@ export const validateRemoveFavorite = async (
   if (!findContentById(contentId))
     return res.status(400).json({
       detail: 'Content with this conteId does not exist in the catalog.',
+      canChangeAfter: null,
     });
 
   // check for not favorited
@@ -122,6 +129,7 @@ export const validateRemoveFavorite = async (
   if (!isFav)
     return res.status(400).json({
       detail: 'This content has not favorited yet.',
+      canChangeAfter: null,
     });
 
   // check for not allowed change in last 5 days and last favorite
