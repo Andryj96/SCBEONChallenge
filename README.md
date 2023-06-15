@@ -2,7 +2,7 @@
 
 To run the backend you must use:
 
-`docker compose up -d` or `npm run start`
+`docker compose up -d` or `npm run start:docker`
 
 Next go to [Api doc](http://localhost:3000/api/swagger) in http://localhost:3000/api/swagger for the api definitions and explication
 
