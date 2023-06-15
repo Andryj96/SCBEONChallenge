@@ -5,8 +5,7 @@ import {
   getLastChangeDate,
   isFavorite,
 } from './catalog.service';
-import { isFiveDaysAfter, iso8601Regex } from '../../../utils/utils';
-import moment from 'moment';
+import { addDays, isFiveDaysAfter, iso8601Regex } from '../../../utils/utils';
 
 export const validateUserIdParam = (
   req: Request,
@@ -70,7 +69,7 @@ export const validateAddFavorite = async (
         canChangeAfter: null,
       });
     else {
-      const canChangeAfter = moment(lastChangeAt).add(5, 'days');
+      const canChangeAfter = addDays(lastChangeAt, 5);
       return res.status(400).json({
         detail: `You exceeded the limit of favorite content (3 max), 
         you can not make a change of content after ${canChangeAfter.toISOString()} 
@@ -91,7 +90,7 @@ export const validateAddFavorite = async (
 
   // check for not allowed change in last 5 days
   if (lastChangeAt && !isFiveDaysAfter(lastChangeAt)) {
-    const canChangeAfter = moment(lastChangeAt).add(5, 'days');
+    const canChangeAfter = addDays(lastChangeAt, 5);
     return res.status(400).json({
       detail: `You can change the favorite 5 days after your last change, you can make a change after ${canChangeAfter.toISOString()}.`,
       canChangeAfter: canChangeAfter.toISOString(),
@@ -137,15 +136,16 @@ export const validateRemoveFavorite = async (
   const favorites = await getFaavoritesByUser(+userId);
   const favCount = favorites.movies.length + favorites.series.length;
 
-  const canChangeAfter = moment(lastChangeAt).add(5, 'days');
+  if (lastChangeAt && !isFiveDaysAfter(lastChangeAt) && favCount == 1) {
+    const canChangeAfter = addDays(lastChangeAt, 5);
 
-  if (lastChangeAt && !isFiveDaysAfter(lastChangeAt) && favCount == 1)
     return res.status(400).json({
       detail: `You can not remove this content until ${canChangeAfter.toISOString()}. 
       You must wait 5 days after last change because you 
       only have one favorite content.`,
       canChangeAfter: canChangeAfter.toISOString(),
     });
+  }
 
   next();
 };
