@@ -18,8 +18,15 @@ model Favorite {
   updatedAt DateTime @updatedAt
 }
 
+enum LAST_ACTION {
+  ADD
+  REMOVE
+}
+
 model UserLastAction {
-  id        Int      @id @default(autoincrement())
-  userId    Int      @unique
-  updatedAt DateTime @updatedAt
+  id           Int         @id @default(autoincrement())
+  userId       Int         @unique
+  lastAction   LAST_ACTION @default(ADD)
+  lastChangeAt DateTime?
+  updatedAt    DateTime    @updatedAt
 }
