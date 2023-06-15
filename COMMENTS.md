@@ -25,4 +25,4 @@ For dev:
 - ts-node-dev,
 - typescript
 
-If I have more time, I would improve the API by introduce authentication with api-key for example, implementing better error handling and validation, increasing test coverage a bit more, optimizing performance, and implementing logging and monitoring functionalities. Also like to improve the deployment process by implementing better integration with AWS, enabling automatic deployment whenever changes are pushed to the main branch.
+If I have more time, I would improve the API by introduce authentication with api-key for example, also would use encryption to store the userId, increasing test coverage a bit more, optimizing performance, and implementing logging and monitoring functionalities. Also like to improve the deployment process by implementing better integration with AWS, enabling automatic deployment whenever changes are pushed to the main branch.
