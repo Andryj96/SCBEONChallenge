@@ -1,6 +1,10 @@
 import express from 'express';
 import * as catalogService from './catalog.service';
-import { validateAddFavorite, validateUserIdParam } from './catalog.middleware';
+import {
+  validateAddFavorite,
+  validateRemoveFavorite,
+  validateUserIdParam,
+} from './catalog.middleware';
 
 const router = express.Router();
 
@@ -34,7 +38,7 @@ router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
 
 router.delete(
   '/favorites/user/:userId/:contentId',
-  validateUserIdParam,
+  validateRemoveFavorite,
   async (req, res) => {
     const { userId, contentId } = req.params;
     await catalogService.removeFavorite(+userId, contentId);
