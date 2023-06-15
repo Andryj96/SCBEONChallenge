@@ -6,7 +6,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     STAGE: ${opt:stage, self:provider.stage}
-    DATABASE_URL: 'postgresql://portgres:portgres@localhost:5432/portgres?schema=public'
+    DATABASE_URL: ${env:DATABASE_URL, 'postgresql://portgres:portgres@localhost:5432/portgres?schema=public'}
 
 functions:
   app:
