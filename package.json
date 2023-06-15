@@ -8,7 +8,9 @@
     "start": "node dist/server.js",
     "dev": "ts-node-dev src/server.ts",
     "dev:sls": "tsc && sls offline start",
-    "test": "jest",
+    "start:docker": "docker compose up -d --build",
+    "test:docker": "docker compose -f docker-compose-test.yml run backend_test && docker compose -f docker-compose-test.yml down",
+    "test:jest": "jest",
     "swagger-autogen": "node swagger.js"
   },
   "keywords": [],
