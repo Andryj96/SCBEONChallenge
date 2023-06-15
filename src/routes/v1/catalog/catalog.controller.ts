@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import * as catalogService from './catalog.service';
 import {
   validateAddFavorite,
@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
+router.get('/', (_req: Request, res: Response) => {
   // #swagger.description = 'Get the entire catalog.'
   /* #swagger.responses[200] = {
         description: 'Return the entire catalog',
@@ -19,7 +19,7 @@ router.get('/', (_req, res) => {
   res.json(catalog);
 });
 
-router.get('/movies', (_req, res) => {
+router.get('/movies', (_req: Request, res: Response) => {
   // #swagger.description = 'Get all existing movies.'
   /* #swagger.responses[200] = {
         description: 'Return list of movies',
@@ -30,7 +30,7 @@ router.get('/movies', (_req, res) => {
   res.json(movies);
 });
 
-router.get('/series', (_req, res) => {
+router.get('/series', (_req: Request, res: Response) => {
   // #swagger.description = 'Get all existing series.'
   /* #swagger.responses[200] = {
         description: 'Return list of series',
@@ -41,37 +41,44 @@ router.get('/series', (_req, res) => {
   res.json(series);
 });
 
-router.get('/favorites/user/:userId', validateUserIdParam, async (req, res) => {
-  // #swagger.description = 'Get favorited content from one user.'
-  /* #swagger.responses[200] = {
+router.get(
+  '/favorites/user/:userId',
+  validateUserIdParam,
+  async (req: Request, res: Response) => {
+    // #swagger.description = 'Get favorited content from one user.'
+    /* #swagger.responses[200] = {
         description: 'Return a catalog of favorites',
         schema: { $ref: "#/definitions/Catalog" }
   }*/
 
-  /*  #swagger.responses[400] = {
+    /*  #swagger.responses[400] = {
           description: 'Invalid param data',
           schema: { detail: 'Error message' }
     } 
   */
 
-  const { userId } = req.params;
-  const favorites = await catalogService.getFaavoritesByUser(+userId);
-  res.json(favorites);
-});
+    const { userId } = req.params;
+    const favorites = await catalogService.getFaavoritesByUser(+userId);
+    res.json(favorites);
+  },
+);
 
-router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
-  // #swagger.description = 'Add favorite content to an user.'
-  /*    #swagger.parameters['obj'] = {
+router.post(
+  '/favorites/user/',
+  validateAddFavorite,
+  async (req: Request, res: Response) => {
+    // #swagger.description = 'Add favorite content to an user.'
+    /*    #swagger.parameters['obj'] = {
           in: 'body',
           description: 'Adding new favorite.',
           schema: { $ref: '#/definitions/AddFavorite' }
   } */
-  /* #swagger.responses[201] = {
+    /* #swagger.responses[201] = {
         description: 'Return a catalog of favorites',
         schema: { $ref: "#/definitions/ReturnFavorite" }
     } 
   */
-  /* #swagger.responses[400] = {
+    /* #swagger.responses[400] = {
         description: 'Invalid data or validation errors',
         schema: { 
           detail: 'Error message',
@@ -79,16 +86,17 @@ router.post('/favorites/user/', validateAddFavorite, async (req, res) => {
         }
     } 
   */
-  const { userId, contentId, dateTime } = req.body;
+    const { userId, contentId, dateTime } = req.body;
 
-  const newFavorite = await catalogService.addFavorite(userId, contentId);
-  res.status(201).json({ userId, contentId, dateTime, id: newFavorite.id });
-});
+    const newFavorite = await catalogService.addFavorite(userId, contentId);
+    res.status(201).json({ userId, contentId, dateTime, id: newFavorite.id });
+  },
+);
 
 router.delete(
   '/favorites/user/:userId/:contentId',
   validateRemoveFavorite,
-  async (req, res) => {
+  async (req: Request, res: Response) => {
     // #swagger.description = 'Remove favorite content from user.'
 
     /* #swagger.responses[204] = {
@@ -109,7 +117,7 @@ router.delete(
   },
 );
 
-router.get('/favorites/top', async (_req, res) => {
+router.get('/favorites/top', async (_req: Request, res: Response) => {
   // #swagger.description = 'Get most favorite content in descending order.'
   /* #swagger.responses[200] = {
         description: 'Return list of top favorited content',
