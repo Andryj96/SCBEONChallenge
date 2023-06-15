@@ -1,0 +1,5 @@
+-- CreateEnum
+CREATE TYPE "LAST_ACTION" AS ENUM ('ADD', 'REMOVE');
+
+-- AlterTable
+ALTER TABLE "UserLastAction" ADD COLUMN     "lastAction" "LAST_ACTION" NOT NULL DEFAULT 'ADD';

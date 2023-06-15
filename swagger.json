@@ -1,0 +1,418 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Catalog Api Challenge",
+    "description": "Catalog Api Challenge Swagger Documentation",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api": {
+      "get": {
+        "description": "Get Api status message.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return a message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dateil": {
+                  "type": "string",
+                  "example": "Catalog Api Ok"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/": {
+      "get": {
+        "description": "Get the entire catalog.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return the entire catalog",
+            "schema": {
+              "$ref": "#/definitions/Catalog"
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/movies": {
+      "get": {
+        "description": "Get all existing movies.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return list of movies",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Movie"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/series": {
+      "get": {
+        "description": "Get all existing series.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return list of series",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Series"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/favorites/user/{userId}": {
+      "get": {
+        "description": "Get favorited content from one user.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a catalog of favorites",
+            "schema": {
+              "$ref": "#/definitions/Catalog"
+            }
+          },
+          "400": {
+            "description": "Invalid param data",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Error message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/favorites/user/": {
+      "post": {
+        "description": "Add favorite content to an user.",
+        "parameters": [
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Adding new favorite.",
+            "schema": {
+              "$ref": "#/definitions/AddFavorite"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return a catalog of favorites",
+            "schema": {
+              "$ref": "#/definitions/ReturnFavorite"
+            }
+          },
+          "400": {
+            "description": "Invalid data or validation errors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Error message"
+                },
+                "canChangeAfter": {
+                  "type": "string",
+                  "example": "2023-06-22T22:12:12.000Z | null"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/favorites/user/{userId}/{contentId}": {
+      "delete": {
+        "description": "Remove favorite content from user.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "contentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return an onject with message",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Success message"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data or validation errors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "type": "string",
+                  "example": "Error message"
+                },
+                "canChangeAfter": {
+                  "type": "string",
+                  "example": "2023-06-22T22:12:12.000Z | null"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/catalog/favorites/top": {
+      "get": {
+        "description": "Get most favorite content in descending order.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return list of top favorited content",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TopFavorite"
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Movie": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "MV00000000001"
+        },
+        "title": {
+          "type": "string",
+          "example": "As Aventuras da Turma X"
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "type": "string",
+              "example": "Lorem ipsum dolor sitquuntur  laborum."
+            },
+            "short": {
+              "type": "string",
+              "example": "Lorem ipsum dolor sit amet  elit."
+            }
+          }
+        },
+        "runTime": {
+          "type": "string",
+          "example": "PT01H12M"
+        },
+        "subType": {
+          "type": "string",
+          "example": "Feature Film"
+        },
+        "releaseYear": {
+          "type": "number",
+          "example": 2001
+        },
+        "genres": {
+          "type": "array",
+          "example": [
+            "Infantil",
+            "Aventura",
+            "Animação"
+          ],
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Series": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "example": "SH00000000001"
+        },
+        "title": {
+          "type": "string",
+          "example": "Jogo das cadeiras"
+        },
+        "description": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "type": "string",
+              "example": "Lorem ipsum dolor  voluptatum laborum."
+            },
+            "short": {
+              "type": "string",
+              "example": "Ldipisicing elit."
+            }
+          }
+        },
+        "runTime": {
+          "type": "string",
+          "example": "PT00H30M"
+        },
+        "genres": {
+          "type": "array",
+          "example": [
+            "Ação",
+            "Aventura"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "releaseYear": {
+          "type": "number",
+          "example": 2015
+        }
+      }
+    },
+    "Catalog": {
+      "type": "object",
+      "properties": {
+        "movies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Movie"
+          }
+        },
+        "series": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Series"
+          }
+        }
+      }
+    },
+    "AddFavorite": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "number",
+          "example": 123
+        },
+        "contentId": {
+          "type": "string",
+          "example": "MV00000000001"
+        },
+        "dateTime": {
+          "type": "string",
+          "example": "2023-06-12T22:14:22.000Z"
+        }
+      },
+      "required": [
+        "userId",
+        "contentId",
+        "dateTime"
+      ]
+    },
+    "ReturnFavorite": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "number",
+          "example": 123
+        },
+        "contentId": {
+          "type": "string",
+          "example": "MV00000000001"
+        },
+        "dateTime": {
+          "type": "string",
+          "example": "2023-06-12T22:14:22.000Z"
+        },
+        "id": {
+          "type": "number",
+          "example": 1
+        }
+      }
+    },
+    "TopFavorite": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "number",
+          "example": 4
+        },
+        "content": {
+          "$ref": "#/definitions/Movie"
+        }
+      }
+    }
+  }
+}
