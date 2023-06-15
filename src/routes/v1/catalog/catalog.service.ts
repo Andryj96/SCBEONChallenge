@@ -1,6 +1,6 @@
 import { Favorite, LAST_ACTION } from '@prisma/client';
 import { data } from '../../../constants/catalog.json';
-import { Catalog, Movie, Serie } from '../../../interfaces';
+import { Catalog, Movie, Serie, TopContent } from '../../../interfaces';
 import prismaService from '../../../prisma/client';
 
 export const getCatalog = (): Catalog => data.catalog as Catalog;
@@ -114,12 +114,7 @@ export const isFavorite = async (
   return !!isFav;
 };
 
-export const getTopFavorites = async (): Promise<
-  {
-    count: number;
-    content: Movie | Serie | undefined;
-  }[]
-> => {
+export const getTopFavorites = async (): Promise<TopContent[]> => {
   try {
     const mostFavorites = await prismaService.favorite.groupBy({
       by: ['contentId'],

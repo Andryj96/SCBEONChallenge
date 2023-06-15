@@ -27,3 +27,8 @@ export interface Catalog {
   movies: Movie[];
   series: Serie[];
 }
+
+export interface TopContent {
+  count: number;
+  content: Movie | Serie | undefined;
+}

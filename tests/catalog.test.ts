@@ -207,5 +207,11 @@ describe('Catalog Api test', () => {
       expect(res.body).toHaveProperty('canChangeAfter');
       expect(res.body.detail).toContain('5 days after your last change');
     });
+
+    it('Should return top favorite list', async () => {
+      const res = await request(app).get('/api/v1/catalog/favorites/top');
+      expect(res.status).toBe(200);
+      expect(res.body[0].count).toBeDefined();
+    });
   });
 });
