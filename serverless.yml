@@ -4,9 +4,9 @@ provider:
   runtime: nodejs18.x
   region: sa-east-1
   stage: ${opt:stage, 'dev'}
-
   environment:
     STAGE: ${opt:stage, self:provider.stage}
+    DATABASE_URL: 'postgresql://portgres:portgres@localhost:5432/portgres?schema=public'
 
 functions:
   app:
@@ -17,3 +17,10 @@ functions:
 
 plugins:
   - serverless-offline
+
+package:
+  patterns:
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
