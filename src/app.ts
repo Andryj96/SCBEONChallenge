@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express';
-import swaggerUi from 'swagger-ui-express';
-
 import catalogRouter from './routes/v1';
-import swaggerDocument from '../swagger.json';
+import swaggerDocument from './constants/swagger.json';
 
 const app = express();
 
@@ -22,7 +20,15 @@ app.get('/api', (_req: Request, res: Response) => {
   res.json({ detail: 'Catalog Api Ok' });
 });
 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/swagger', express.static('public/swagger.html'));
+
+app.get(
+  ['/api/openapi.json', '/api/swagger/openapi.json'],
+  async (_req: Request, res: Response) => {
+    res.set('Content-Type', 'application/json; charset=utf-8');
+    res.send(swaggerDocument);
+  },
+);
 
 app.use((_req: Request, res: Response) => {
   //   404 error
