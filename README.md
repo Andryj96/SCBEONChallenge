@@ -2,9 +2,11 @@
 
 To run the backend you must use:
 
-`docker compose up -d` or `npm run start`
+`docker compose up -d` or `npm run start:docker`
 
 Next go to [Api doc](http://localhost:3000/api/swagger) in http://localhost:3000/api/swagger for the api definitions and explication
+
+Note that the docker image is being used in develop mode, if we were to deploy the api to production we should use the compiled JavaScript files
 
 This project provide an API for manage a catalog and users' favorites. It offers the following features:
 
